@@ -21,16 +21,7 @@ public class Startactivity extends AppCompatActivity {
 
         final Button btn1 = (Button)findViewById(R.id.main_time);
 
-        // 저장된 시간을 불러와 Button 위의 Text로 바꾸기
-        SharedPreferences st = getSharedPreferences("timeinfo",MODE_PRIVATE);
-        String str = st.getString("time","");
-        if (str != "") {
-            btn1.setText(str);
-        }
-        else {
-            btn1.setText("00:00");
-        }
-        // 저장된 시간을 불러와 Button 위의 Text로 바꾸기
+
 
         // Button을 눌러 TimePicker 호출하기
         btn1.setOnClickListener(
@@ -48,10 +39,21 @@ public class Startactivity extends AppCompatActivity {
                         SharedPreferences st = getSharedPreferences("timeinfo", MODE_PRIVATE);
                         SharedPreferences.Editor editor = st.edit();
                         editor.remove("time");
+                        editor.commit();
 
-                        String newstr = String.valueOf(hour)+":"+String.valueOf(min);
+                        String hourstr, minstr;
+                        if (hour<10)
+                            hourstr = "0" + String.valueOf(hour);
+                        else
+                            hourstr = String.valueOf(hour);
+                        if (min<10)
+                            minstr = "0" + String.valueOf(min);
+                        else
+                            minstr = String.valueOf(min);
+                        String newstr = hourstr + ":" + minstr;
                         editor.putString("time", newstr);
                         editor.commit();
+
 
                         btn1.setText(newstr);
 
@@ -59,6 +61,21 @@ public class Startactivity extends AppCompatActivity {
                 }
 
         );
+        // 저장된 시간을 불러와 Button 위의 Text로 바꾸기
+
+        // 저장된 시간을 불러와 Button 위의 Text로 바꾸기
+        SharedPreferences st = getSharedPreferences("timeinfo",MODE_PRIVATE);
+
+        String str = st.getString("time","");
+        if (str != "") {
+            btn1.setText(str);
+        }
+        if (str == "") {
+            SharedPreferences.Editor editor = st.edit();
+            editor.putString("time","00:00");
+            editor.commit();
+            btn1.setText("00:00");
+        }
         // 저장된 시간을 불러와 Button 위의 Text로 바꾸기
 
     }

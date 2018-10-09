@@ -3,6 +3,7 @@
     <string name="cancel">취소</string>
     <string name="save">저장</string>
     <string name="repeat">반복</string>
+    <string name="setting">편집</string>
     <string name="pre_alarm">미리알림</string>
     <string name="alarm_bell">벨</string>
     <string name="alarm_vib">진동</string>
@@ -22,6 +23,7 @@
     <string name="week_end">주말</string>
     <string name="time_to_sleep">· TIME TO SLEEP</string>
     <string name="how_long">· HOW LONG LEFT YOU CAN SNS</string>
+    <string name="app_setting">APP SETTING</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
