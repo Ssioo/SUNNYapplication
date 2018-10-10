@@ -2,10 +2,14 @@ package com.example.wooisso.sunnyapplication;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +21,54 @@ import android.widget.TextView;
 public class Startactivity extends AppCompatActivity {
 
 
+    private iMyCounterService binder;
 
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder iBinder) {
+            binder = iMyCounterService.Stub.asInterface(iBinder);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+        }
+    };
+
+    private class GetCountThread implements Runnable {
+
+        private Handler handler = new Handler();
+
+        @Override
+        public void run() {
+
+            while(running) {
+                if (binder==null)
+                    continue;
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    private Intent intent;
+    private boolean running = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +98,8 @@ public class Startactivity extends AppCompatActivity {
 
         Intent intent = new Intent(Startactivity.this, MyCounterService.class);
         startService(intent);
+        running = true;
+        new Thread(new GetCountThread()).start();
 
         // 저장된 시간을 불러와 D-시간 계산하기
 
