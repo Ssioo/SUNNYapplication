@@ -49,16 +49,44 @@ public class Startactivity extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            //
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                        // 실시간 D-HOUR 측정
+
+
+                        SharedPreferences st = getSharedPreferences("timeinfo",MODE_PRIVATE);
+                        long setnow = st.getLong("time_mil",0);
+                        long timer;
+                        boolean timesignal;
+                        long now = System.currentTimeMillis() % (60 * 60 * 1000);
+
+                        if (setnow > now) {
+                            timer = (setnow - now) / 1000; // ( Hour * 3600  + Min * 60  + sec )* 10 # 1sec 단위
+                            timesignal = true;
                         }
+                        else {
+                            timer = (now - setnow) / 1000; // ( Hour * 3600  + Min * 60  + sec )* 10 # 1sec 단위)
+                            timesignal = false;
+                        }
+
+                        // SystemCurrrentTimeMillis 는 1970년 1월 1일 부터 진행한 ms
+
+                        int setsec = (int) timer % 60;
+                        int setmin = (int) (timer / 60) % 60;
+                        int sethour = (int) timer / 3600;
+
+
+
+
+                        TextView txt1 = findViewById(R.id.D_HOUR);
+                        if (timesignal)
+                            txt1.setText(String.format("D - %02d:%02d:%02d", sethour, setmin, setsec));
+                        else
+                            txt1.setText(String.format("D + %02d:%02d:%02d", sethour, setmin, setsec));
+
                     }
                 });
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -97,7 +125,8 @@ public class Startactivity extends AppCompatActivity {
         // 저장된 시간을 불러와 D-시간 계산하기 # Handler 사용
 
         Intent intent = new Intent(Startactivity.this, MyCounterService.class);
-        startService(intent);
+        //startService(intent);
+        bindService(intent, connection, BIND_AUTO_CREATE);
         running = true;
         new Thread(new GetCountThread()).start();
 

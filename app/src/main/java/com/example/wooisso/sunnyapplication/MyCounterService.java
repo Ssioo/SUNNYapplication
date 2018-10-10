@@ -2,12 +2,15 @@ package com.example.wooisso.sunnyapplication;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.widget.Button;
 
 public class MyCounterService extends Service {
 
+    public MyCounterService() {    }
 
     private int count;
     private boolean isStop;
@@ -50,7 +53,7 @@ public class MyCounterService extends Service {
         return super.onUnbind(intent);
     }
 
-    public MyCounterService() {    }
+
 
     private class Counter implements Runnable {
 
@@ -60,15 +63,21 @@ public class MyCounterService extends Service {
         @Override
         public void run() {
 
-            for (count=0;count<50;count++) {
-                if (isStop) {
-                    break;
-                }
+            while (!isStop) {
+
 
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         // 실행할 내용
+                        long now = System.currentTimeMillis();
+
+                        SharedPreferences st = getSharedPreferences("timeinfo",MODE_PRIVATE);
+                        long setnow = st.getLong("time_mil",0);
+
+                        long timer = setnow - now;
+
+
                     }
                 });
 
