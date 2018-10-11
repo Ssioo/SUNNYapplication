@@ -17,6 +17,11 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Startactivity extends AppCompatActivity {
 
@@ -56,7 +61,11 @@ public class Startactivity extends AppCompatActivity {
                         long setnow = st.getLong("time_mil",0);
                         long timer;
                         boolean timesignal;
-                        long now = System.currentTimeMillis() % (60 * 60 * 1000);
+
+
+
+                        long now = (System.currentTimeMillis() + 9 * 60 * 60 * 1000)% (24 * 60 * 60 * 1000); // GMT +09:00 만큼 차이남. 우선 그냥 더했는데 해결법을 찾아야 할 듯함.
+
 
                         if (setnow > now) {
                             timer = (setnow - now) / 1000; // ( Hour * 3600  + Min * 60  + sec )* 10 # 1sec 단위
@@ -81,6 +90,8 @@ public class Startactivity extends AppCompatActivity {
                             txt1.setText(String.format("D - %02d:%02d:%02d", sethour, setmin, setsec));
                         else
                             txt1.setText(String.format("D + %02d:%02d:%02d", sethour, setmin, setsec));
+
+
 
                     }
                 });
