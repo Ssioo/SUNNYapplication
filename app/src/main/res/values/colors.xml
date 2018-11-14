@@ -5,4 +5,5 @@
     <color name="colorAccent">#ffffff</color>
     <color name="textlight">#ffffff</color>
     <color name="textdark">#000000</color>
+    <color name="switchbar">#ffffff</color>
 </resources>
