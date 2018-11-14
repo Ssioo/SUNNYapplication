@@ -35,7 +35,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         String newstr = String.format("%02d:%02d", hourOfday, minute); // Time 00:00 형태로 SharedPref "time"키로 저장
         editor.putString("time", newstr);
         editor.commit();
-        editor.putLong("time_mil", hourOfday * 60 * 60 * 60 + minute * 60 * 60); // TIme * 60 + Min 의 msec값을 SharedPref "time_mil"키로 저장
+        editor.putLong("time_mil", hourOfday * 60 * 60 * 1000 + minute * 60 * 1000); // TIme * 60 + Min 의 msec값을 SharedPref "time_mil"키로 저장
         editor.commit();
 
         btn1.setText(newstr);
@@ -55,9 +55,9 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         int min = mCalendar.get(Calendar.MINUTE);
 
         TimePickerDialog mTimePickerDialog = new TimePickerDialog(
-                getContext(), android.R.style.Theme_Material_Light_DarkActionBar,this, hour, min, true);
+                getContext(), android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth,this, hour, min, false);
 
-        mTimePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mTimePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         mTimePickerDialog.setCanceledOnTouchOutside(false);
 
         return mTimePickerDialog;
