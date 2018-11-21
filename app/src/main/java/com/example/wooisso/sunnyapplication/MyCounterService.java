@@ -99,10 +99,15 @@ public class MyCounterService extends Service {
                         int sethour = (int) timer / 3600;
 
 
+                        // Alarm Maker
                         if (timesignal = true && setsec == 0) {
 
                             Toast.makeText(getApplicationContext(),setmin + "분 남았습니다.", Toast.LENGTH_LONG).show();
                         }
+
+
+                        // App Detector
+
 
 
                     }

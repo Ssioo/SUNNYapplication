@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewDebug;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -117,6 +119,20 @@ public class Startactivity extends AppCompatActivity {
         final Button btn1 = (Button)findViewById(R.id.main_time);
 
 
+        // App package id 저장하기
+        SharedPreferences appid  = getSharedPreferences("appinfo", MODE_PRIVATE);
+
+        // 저장된 값을 불러와 Switch 값 변경하기
+
+        Switch swc = (Switch)findViewById(R.id.switch_faceook);
+        swc.setChecked(appid.getBoolean("com.facebook.katana",false));
+        swc = (Switch)findViewById(R.id.switch_kakao);
+        swc.setChecked(appid.getBoolean("com.kakao.talk", false));
+        swc = (Switch)findViewById(R.id.switch_youtube);
+        swc.setChecked(appid.getBoolean("com.google.android.youtube", false));
+
+
+
         // 저장된 시간을 불러와 Button 위의 Text로 바꾸기
         SharedPreferences st = getSharedPreferences("timeinfo",MODE_PRIVATE);
 
@@ -161,6 +177,21 @@ public class Startactivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //Activity 종료 전 저장
+        SharedPreferences app = getSharedPreferences("appinfo", MODE_PRIVATE);
+        SharedPreferences.Editor editor = app.edit();
+        Switch swc = (Switch)findViewById(R.id.switch_faceook);
+        editor.putBoolean("com.facebook.katana", swc.isChecked());
+        swc = (Switch)findViewById(R.id.switch_kakao);
+        editor.putBoolean("com.kakao.talk", swc.isChecked());
+        swc = (Switch)findViewById(R.id.switch_youtube);
+        editor.putBoolean("com.google.android.youtube", swc.isChecked());
+        editor.commit();
     }
 }
 
